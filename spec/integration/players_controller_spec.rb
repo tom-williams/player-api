@@ -206,8 +206,17 @@ RSpec.describe "Player API", swagger_doc: 'v1/swagger.yaml' do
       let!(:follower_5) { create(:player, firstname: 'Steven', club: 'Vejle', position: 'Central Defender') }
 
       let!(:player) {
-        create(:player, firstname: 'John', lastname: 'Smith', club: 'FCK', position: 'Goalkeeper',
-          followers: [follower_1, follower_2, follower_3, follower_4, follower_5])
+        create(:player, firstname: 'John', lastname: 'Smith', club: 'FCK', position: 'Goalkeeper')
+      }
+
+      let!(:followers) {
+        [
+          create(:follow, followee: player, follower: follower_1),
+          create(:follow, followee: player, follower: follower_2),
+          create(:follow, followee: player, follower: follower_3),
+          create(:follow, followee: player, follower: follower_4),
+          create(:follow, followee: player, follower: follower_5)
+        ]
       }
       let!(:id) { player.id }
 

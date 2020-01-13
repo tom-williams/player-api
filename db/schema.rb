@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_10_120208) do
+ActiveRecord::Schema.define(version: 2020_01_13_061817) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "follows", force: :cascade do |t|
+    t.bigint "follower_id"
+    t.bigint "followee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["followee_id"], name: "index_follows_on_followee_id"
+    t.index ["follower_id"], name: "index_follows_on_follower_id"
+  end
 
   create_table "players", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -25,12 +34,12 @@ ActiveRecord::Schema.define(version: 2020_01_10_120208) do
     t.string "position"
     t.string "club"
     t.datetime "date_of_birth"
-    t.bigint "followed_id"
     t.index ["created_at"], name: "index_players_on_created_at"
     t.index ["email"], name: "index_players_on_email", unique: true
     t.index ["firstname"], name: "index_players_on_firstname"
-    t.index ["followed_id"], name: "index_players_on_followed_id"
     t.index ["lastname"], name: "index_players_on_lastname"
   end
 
+  add_foreign_key "follows", "players", column: "followee_id"
+  add_foreign_key "follows", "players", column: "follower_id"
 end
